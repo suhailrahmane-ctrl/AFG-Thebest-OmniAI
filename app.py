@@ -1,18 +1,18 @@
 import streamlit as st
 import requests
-import os
 from model_config import MODEL_NAME
 
-# عنوان
+# عنوان اپلیکیشن
 st.title("AFG Thebest OmniAI – DeepSeek Version")
 st.write("چت پیشرفته با هوش مصنوعی – قدرت گرفته از **DeepSeek**")
 
-# گرفتن کلید
+# گرفتن کلید از Secrets
 api_key = st.secrets["DEEPSEEK_API_KEY"]
 
 # ورودی کاربر
 user_input = st.text_input("پیامت را بنویس سهیل جان:")
 
+# دکمه ارسال
 if st.button("📩 ارسال"):
     if not user_input:
         st.warning("لطفاً پیام بنویس!")
