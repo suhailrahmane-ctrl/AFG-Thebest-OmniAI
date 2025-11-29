@@ -1,56 +1,40 @@
 import streamlit as st
 from groq import Groq
+import os
 
-# --- خواندن API Key از Streamlit Secrets ---
-GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
-
-# --- ایجاد کلاینت Groq ---
-client = Groq(api_key=GROQ_API_KEY)
-
-# --- رابط کاربری Streamlit ---
-st.set_page_config(page_title="AFG Thebest OmniAI Chat", page_icon="🤖", layout="centered")
+st.set_page_config(page_title="AFG Thebest OmniAI", page_icon="🤖")
 
 st.title("🤖 AFG Thebest OmniAI")
 st.write("چت پیشرفته با هوش مصنوعی – قدرت گرفته از **Groq LLM**")
 
-# --- دریافت پیام کاربر ---
-user_input = st.text_input("پیامت را بنویس سهیل جان:", "")
+# گرفتن کلید از Secrets
+GROQ_API_KEY = st.secrets.get("GROQ_API_KEY")
 
-# --- ذخیره تاریخچه پیام‌ها ---
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+if not GROQ_API_KEY:
+    st.error("❌ کلید API تنظیم نشده! لطفاً داخل تنظیمات Streamlit → Secrets کلید را اضافه کنید.")
+    st.stop()
 
-# --- نمایش تاریخچه پیام‌ها ---
-for msg in st.session_state.messages:
-    if msg["role"] == "user":
-        st.markdown(f"🧑 **تو:** {msg['content']}")
-    else:
-        st.markdown(f"🤖 **هوش مصنوعی:** {msg['content']}")
+client = Groq(api_key=GROQ_API_KEY)
 
-# --- ارسال پیام کاربر و دریافت پاسخ ---
+# ورودی کاربر
+user_input = st.text_input("پیامت را بنویس سهیل جان:")
+
 if st.button("📩 ارسال"):
-    if user_input.strip() != "":
-        # ذخیره پیام کاربر
-        st.session_state.messages.append({"role": "user", "content": user_input})
-
-        # تماس با Groq AI (مدل سبک و رایگان برای پاسخ فوری)
-        chat_completion = client.chat.completions.create(
-            model="gpt-3.5-mini",
-            messages=[
-                {"role": "system", "content": "You are AFG Thebest OmniAI, a friendly AI assistant."},
-                {"role": "user", "content": user_input},
-            ],
-            max_tokens=300,
-        )
-
-        # دریافت پاسخ بدون خطا
+    if not user_input.strip():
+        st.warning("لطفاً پیام بنویس!")
+    else:
         try:
-            bot_reply = chat_completion.choices[0].message["content"]
-        except (AttributeError, TypeError, IndexError):
-            bot_reply = getattr(chat_completion, "output_text", "متاسفم، پاسخ در دسترس نیست.")
+            chat_completion = client.chat.completions.create(
+                model="gemma-7b-it",  # مدل رایگان و قابل استفاده
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": user_input}
+                ],
+                max_tokens=300,
+            )
 
-        # ذخیره پاسخ
-        st.session_state.messages.append({"role": "assistant", "content": bot_reply})
+            reply = chat_completion.choices[0].message["content"]
+            st.write("🤖 **هوش مصنوعی:**", reply)
 
-        # بروزرسانی رابط
-        st.rerun()
+        except Exception as e:
+            st.error("❌ متاسفم، پاسخ در دسترس نیست.")
