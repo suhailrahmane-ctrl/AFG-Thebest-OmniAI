@@ -33,9 +33,9 @@ if st.button("📩 ارسال"):
         # ذخیره پیام کاربر
         st.session_state.messages.append({"role": "user", "content": user_input})
 
-        # تماس با Groq AI
+        # تماس با Groq AI (مدل سبک و رایگان برای پاسخ فوری)
         chat_completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model="gpt-3.5-mini",
             messages=[
                 {"role": "system", "content": "You are AFG Thebest OmniAI, a friendly AI assistant."},
                 {"role": "user", "content": user_input},
@@ -43,10 +43,10 @@ if st.button("📩 ارسال"):
             max_tokens=300,
         )
 
-        # دریافت پاسخ بدون خطا با توجه به نسخه جدید Groq
+        # دریافت پاسخ بدون خطا
         try:
             bot_reply = chat_completion.choices[0].message["content"]
-        except (AttributeError, TypeError):
+        except (AttributeError, TypeError, IndexError):
             bot_reply = getattr(chat_completion, "output_text", "متاسفم، پاسخ در دسترس نیست.")
 
         # ذخیره پاسخ
