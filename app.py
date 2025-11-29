@@ -1,7 +1,5 @@
-# app.py
 import streamlit as st
 import requests
-import json
 
 st.set_page_config(page_title="AFG Thebest OmniAI – DeepSeek Version", layout="centered")
 st.title("AFG Thebest OmniAI – DeepSeek Version")
@@ -32,7 +30,6 @@ if st.button("📩 ارسال") and user_input:
         )
         if response.status_code == 200:
             result = response.json()
-            # استخراج پاسخ از JSON
             answer = result['choices'][0]['message']['content']
             st.markdown(f"🤖 **هوش مصنوعی:** {answer}")
         else:
