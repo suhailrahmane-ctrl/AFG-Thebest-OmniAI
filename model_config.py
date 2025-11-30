@@ -1,2 +1,1 @@
-# model_config.py
-MODEL_NAME = "deepseek-chat"
+MODEL_NAME = "deepseek/deepseek-chat"
