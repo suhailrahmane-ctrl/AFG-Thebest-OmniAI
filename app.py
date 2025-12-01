@@ -1,9 +1,10 @@
+# app.py
 import streamlit as st
 from model_config import HEADERS, MODEL_NAME
 import requests
 
-# تنظیمات صفحه
 st.set_page_config(page_title="AFG Thebest OmniAI", page_icon="🤖")
+
 st.title("AFG Thebest OmniAI – Chat & Image")
 st.markdown("چت پیشرفته و تولید عکس با هوش مصنوعی – قدرت گرفته از DeepSeek")
 
@@ -24,7 +25,6 @@ if st.button("ارسال پیام"):
                         {"role": "system", "content": "You are AFG Thebest OmniAI, a helpful multilingual assistant."},
                         {"role": "user", "content": user_message}
                     ],
-                    "max_tokens": 300
                 }
                 response = requests.post(url, json=payload, headers=HEADERS)
                 if response.status_code != 200:
