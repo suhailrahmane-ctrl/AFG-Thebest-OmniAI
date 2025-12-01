@@ -1,11 +1,9 @@
 import os
 
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")  # یا مستقیم کلیدت را اینجا بگذار
 
-MODEL_NAME = "deepseek/deepseek-chat"
+MODEL_NAME = "openrouter/gpt-4"  # یا مدل OpenRouter که داری
 
 HEADERS = {
-    "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-    "HTTP-Referer": "https://afg-thebest-omniai.streamlit.app/",
-    "X-Title": "AFG Thebest OmniAI"
+    "Authorization": f"Bearer {OPENROUTER_API_KEY}"
 }
