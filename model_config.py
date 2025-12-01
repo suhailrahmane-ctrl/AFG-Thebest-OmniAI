@@ -1,8 +1,8 @@
 # model_config.py
-DEEPSEEK_API_KEY = "sk-9a6ae06e90e44207a13c6d8eedc4d393"  # کلید مستقیم
+OPENROUTER_API_KEY = "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"
 
-MODEL_NAME = "deepseek/deepseek-chat"
+MODEL_NAME = "openrouter/gpt-4"
 
 HEADERS = {
-    "Authorization": f"Bearer {DEEPSEEK_API_KEY}"
+    "Authorization": f"Bearer {OPENROUTER_API_KEY}"
 }
