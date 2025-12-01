@@ -2,13 +2,13 @@ import streamlit as st
 from model_config import HEADERS, MODEL_NAME
 import requests
 
+# تنظیمات صفحه
 st.set_page_config(page_title="AFG Thebest OmniAI", page_icon="🤖")
-
 st.title("AFG Thebest OmniAI – Chat & Image")
-st.markdown("چت پیشرفته و تولید عکس با هوش مصنوعی – قدرت گرفته از DeepSeek / OpenRouter")
+st.markdown("چت پیشرفته و تولید عکس با هوش مصنوعی – قدرت گرفته از DeepSeek")
 
 # ---------------------
-# چت
+# بخش چت
 # ---------------------
 st.header("💬 چت با هوش مصنوعی")
 user_message = st.text_input("پیامت را بنویس سهیل جان:")
@@ -17,13 +17,14 @@ if st.button("ارسال پیام"):
     if user_message:
         with st.spinner("در حال پردازش پیام..."):
             try:
-                url = "https://openrouter.ai/api/v1/chat/completions"
+                url = "https://api.deepseek.ai/v1/chat/completions"
                 payload = {
                     "model": MODEL_NAME,
                     "messages": [
                         {"role": "system", "content": "You are AFG Thebest OmniAI, a helpful multilingual assistant."},
                         {"role": "user", "content": user_message}
                     ],
+                    "max_tokens": 300
                 }
                 response = requests.post(url, json=payload, headers=HEADERS)
                 if response.status_code != 200:
@@ -36,7 +37,7 @@ if st.button("ارسال پیام"):
                 st.error(f"خطا در دریافت پاسخ: {e}")
 
 # ---------------------
-# تولید عکس
+# بخش تولید عکس
 # ---------------------
 st.header("🖼️ تولید عکس با هوش مصنوعی")
 image_prompt = st.text_input("ایده عکس خود را وارد کن:")
@@ -45,7 +46,7 @@ if st.button("تولید عکس"):
     if image_prompt:
         with st.spinner("در حال تولید عکس..."):
             try:
-                url_image = "https://openrouter.ai/api/v1/images/generations"
+                url_image = "https://api.deepseek.ai/v1/images/generations"
                 payload_image = {
                     "prompt": image_prompt,
                     "size": "512x512",
